@@ -1,5 +1,12 @@
+"""
+Author: Maulana Muhammad
+Date: 20/04/2023
+This is the components.py module.
+Usage:
+- COMPONENTS TFX
+"""
+
 import os
-import tensorflow as tf
 import tensorflow_model_analysis as tfma
 
 from tfx.components import(
@@ -20,6 +27,7 @@ from tfx.dsl.input_resolution.strategies.latest_blessed_model_strategy import(
     LatestBlessedModelStrategy
 )
 
+
 def init_components(
     data_dir,
     transform_module,
@@ -28,8 +36,20 @@ def init_components(
     eval_steps,
     serving_model_dir,
 ):
+    """
+    Initializes TFX components required for building a pipeline for training and deploying a model.
+
+    Args:
+        data_dir (str): The directory containing the input data.
+        transform_module (str): The path to the module containing the transformation logic.
+        training_module (str): The path to the module containing the training logic.
+        training_steps (int): The number of training steps.
+        eval_steps (int): The number of evaluation steps.
+        serving_model_dir (str): The directory where the trained model will be exported for serving.
+    """
+
     output = example_gen_pb2.Output(
-        split_config = example_gen_pb2.SplitConfig(splits=[
+        split_config=example_gen_pb2.SplitConfig(splits=[
             example_gen_pb2.SplitConfig.Split(name='train', hash_buckets=8),
             example_gen_pb2.SplitConfig.Split(name='eval', hash_buckets=2)
         ])
@@ -41,21 +61,21 @@ def init_components(
     )
 
     statistics_gen = StatisticsGen(
-        examples=example_gen.outputs['examples']   
+        examples=example_gen.outputs['examples']
     )
-    
+
     schema_gen = SchemaGen(
         statistics=statistics_gen.outputs["statistics"]
     )
-    
+
     example_validator = ExampleValidator(
         statistics=statistics_gen.outputs['statistics'],
         schema=schema_gen.outputs['schema']
     )
 
-    transform  = Transform(
+    transform = Transform(
         examples=example_gen.outputs['examples'],
-        schema= schema_gen.outputs['schema'],
+        schema=schema_gen.outputs['schema'],
         module_file=os.path.abspath(transform_module)
     )
 
@@ -80,8 +100,8 @@ def init_components(
         model_blessing=Channel(type=ModelBlessing)
     ).with_id('Latest_blessed_model_resolver')
 
-    slicing_specs=[
-        tfma.SlicingSpec(), 
+    slicing_specs = [
+        tfma.SlicingSpec(),
         tfma.SlicingSpec(feature_keys=[
             "gender",
             "heart_disease"
@@ -90,20 +110,20 @@ def init_components(
 
     metrics_specs = [
         tfma.MetricsSpec(metrics=[
-                tfma.MetricConfig(class_name='AUC'),
-                tfma.MetricConfig(class_name="Precision"),
-                tfma.MetricConfig(class_name="Recall"),
-                tfma.MetricConfig(class_name="ExampleCount"),
-                tfma.MetricConfig(class_name='BinaryAccuracy',
-                    threshold=tfma.MetricThreshold(
-                        value_threshold=tfma.GenericValueThreshold(
-                            lower_bound={'value':0.5}),
-                        change_threshold=tfma.GenericChangeThreshold(
-                            direction=tfma.MetricDirection.HIGHER_IS_BETTER,
-                            absolute={'value':0.0001})
-                        )
-                )
-            ])
+            tfma.MetricConfig(class_name='AUC'),
+            tfma.MetricConfig(class_name="Precision"),
+            tfma.MetricConfig(class_name="Recall"),
+            tfma.MetricConfig(class_name="ExampleCount"),
+            tfma.MetricConfig(class_name='BinaryAccuracy',
+                              threshold=tfma.MetricThreshold(
+                                  value_threshold=tfma.GenericValueThreshold(
+                                      lower_bound={'value': 0.5}),
+                                  change_threshold=tfma.GenericChangeThreshold(
+                                      direction=tfma.MetricDirection.HIGHER_IS_BETTER,
+                                      absolute={'value': 0.0001})
+                              )
+                              )
+        ])
     ]
 
     eval_config = tfma.EvalConfig(
@@ -111,7 +131,7 @@ def init_components(
         slicing_specs=slicing_specs,
         metrics_specs=metrics_specs
     )
-    
+
     evaluator = Evaluator(
         examples=example_gen.outputs['examples'],
         model=trainer.outputs['model'],

@@ -2,8 +2,8 @@ import tensorflow as tf
 import tensorflow_transform as tft
 
 CATEGORICAL_FEATURES = {
-    "gender",
-    "smoking_history"
+    "gender": 2,
+    "smoking_history": 3
 }
 
 NUMERICAL_FEATURES = [

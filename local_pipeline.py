@@ -1,5 +1,12 @@
+"""
+Author: Maulana Muhammad
+Date: 20/04/2023
+This is the local_pipline.py module.
+Usage:
+- LOCAL PIPELINE
+"""
+
 import os
-import sys
 from typing import Text
 
 from absl import logging
@@ -19,12 +26,24 @@ metadata_path = os.path.join(pipeline_root, 'metadata.sqlite')
 
 
 def init_local_pipeline(
-        components, pipeline_root: Text
+    components, pipeline_root: Text
 ) -> pipeline.Pipeline:
-    
+    """
+    Initialize a local TFX pipeline.
+
+    Args:
+        components: A dictionary of TFX components to be included in the pipeline.
+        pipeline_root: Root directory for pipeline output artifacts.
+
+    Returns:
+        A TFX pipeline.
+    """
+
     logging.info(f'Pipeline root set to: {pipeline_root}')
     beam_args = [
         '--direct_running_mode=multi_processing'
+        # 0 auto-detect based on the number of CPUs available
+        # duraing execution time
         '----direct_num_workers=0'
     ]
 
@@ -39,11 +58,11 @@ def init_local_pipeline(
         eam_pipeline_args=beam_args
     )
 
+
 if __name__ == '__main__':
     logging.set_verbosity(logging.INFO)
 
     from modules.components import init_components
-    
     components = init_components(
         DATA_ROOT,
         training_module=TRAINER_MODULE_FILE,

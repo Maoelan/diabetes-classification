@@ -1,8 +1,16 @@
+"""
+Author: Maulana Muhammad
+Date: 20/04/2023
+This is the trainer.py module.
+Usage:
+- TRAINER
+"""
+
 import os
 
 import tensorflow as tf
 from keras.utils.vis_utils import plot_model
-import tensorflow_transform as tft 
+import tensorflow_transform as tft
 
 from transform import (
     CATEGORICAL_FEATURES,
@@ -11,18 +19,19 @@ from transform import (
     transformed_name,
 )
 
+
 def get_model(show_summary=True):
     input_features = []
     for key, dim in CATEGORICAL_FEATURES.items():
         input_features.append(
             tf.keras.Input(shape=(dim + 1,), name=transformed_name(key))
         )
-    
+
     for feature in NUMERICAL_FEATURES:
         input_features.append(
             tf.keras.Input(shape=(1,), name=transformed_name(feature))
         )
-    
+
     concatenate = tf.keras.layers.concatenate(input_features)
     deep = tf.keras.layers.Dense(256, activation="relu")(concatenate)
     deep = tf.keras.layers.Dense(64, activation="relu")(deep)
@@ -41,8 +50,10 @@ def get_model(show_summary=True):
 
     return model
 
+
 def gzip_reader_fn(filenames):
     return tf.data.TFRecordDataset(filenames, compression_type='GZIP')
+
 
 def get_serve_tf_examples_fn(model, tf_transform_output):
     model.tft_layer = tf_transform_output.transform_features_layer()
@@ -54,7 +65,7 @@ def get_serve_tf_examples_fn(model, tf_transform_output):
         parsed_features = tf.io.parse_example(
             serialized_tf_examples, feature_spec
         )
-        
+
         transformed_features = model.tft_layer(parsed_features)
 
         outputs = model(transformed_features)
@@ -62,20 +73,22 @@ def get_serve_tf_examples_fn(model, tf_transform_output):
 
     return serve_tf_examples_fn
 
+
 def input_fn(file_pattern, tf_transform_output, batch_size=64):
     transformed_feature_spec = (
         tf_transform_output.transformed_feature_spec().copy()
     )
-    
+
     dataset = tf.data.experimental.make_batched_features_dataset(
         file_pattern=file_pattern,
         batch_size=batch_size,
         features=transformed_feature_spec,
         reader=gzip_reader_fn,
-        label_key=transformed_name(LABEL_KEY),
+        label_key=transformed_name(LABEL_KEY)
     )
 
     return dataset
+
 
 def run_fn(fn_args):
     tf_transform_output = tft.TFTransformOutput(fn_args.transform_output)
@@ -111,9 +124,8 @@ def run_fn(fn_args):
     )
 
     plot_model(
-        model, 
-        to_file='images/model_plot.png', 
-        show_shapes=True, 
+        model,
+        to_file='images/model_plot.png',
+        show_shapes=True,
         show_layer_names=True
     )
-
