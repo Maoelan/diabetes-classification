@@ -5,7 +5,6 @@ This is the local_pipline.py module.
 Usage:
 - LOCAL PIPELINE
 """
-
 import os
 from typing import Text
 

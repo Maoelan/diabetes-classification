@@ -5,13 +5,12 @@ This is the trainer.py module.
 Usage:
 - TRAINER
 """
-
 import os
 
 import tensorflow as tf
 from keras.utils.vis_utils import plot_model
 import tensorflow_transform as tft
-from transform import (
+from transform import(
     CATEGORICAL_FEATURES,
     LABEL_KEY,
     NUMERICAL_FEATURES,
@@ -24,7 +23,6 @@ def get_model(show_summary=True):
     This function defines a Keras model and returns the model as a
     Keras object.
     """
-
     input_features = []
 
     for key, dim in CATEGORICAL_FEATURES.items():

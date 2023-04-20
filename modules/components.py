@@ -5,7 +5,6 @@ This is the components.py module.
 Usage:
 - COMPONENTS TFX
 """
-
 import os
 import tensorflow_model_analysis as tfma
 
