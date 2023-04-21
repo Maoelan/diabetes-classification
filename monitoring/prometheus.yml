@@ -4,10 +4,9 @@ global:
   external_labels:
     monitor: "tf-serving-monitor"
 
-
 scrape_configs:
   - job_name: "prometheus"
-    scrape_interval: 5s 
-    metrics_path: /monitoring/prometheus/metrics 
+    scrape_interval: 5s
+    metrics_path: /monitoring/prometheus/metrics
     static_configs:
-      - targets: ['diabetes-classification-production.up.railway.app'] 
+      - targets: ["diabetes-classification-production.up.railway.app"] 

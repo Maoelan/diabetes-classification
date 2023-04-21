@@ -1,8 +1,8 @@
 FROM tensorflow/serving:latest
 
-COPY ./output/serving_model /models/cc-model
+COPY ./output/serving_model /models/diabetes-classification-model
 COPY ./config /model_config
-ENV MODEL_NAME=cc-model
+ENV MODEL_NAME=diabetes-classification-model
 
 ENV MONITORING_CONFIG="/model_config/prometheus.config"
 ENV PORT=8501
