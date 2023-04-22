@@ -1,9 +1,9 @@
 """
 Author: Maulana Muhammad
-Date: 20/04/2023
-This is the local_pipline.py module.
+Date: 22/04/2023
+This is the pipline.py module.
 Usage:
-- LOCAL PIPELINE
+- FOR RUNNING PIPELINE
 """
 import os
 from typing import Text
@@ -37,7 +37,6 @@ def init_local_pipeline(
     Returns:
         A TFX pipeline.
     """
-
     logging.info(f'Pipeline root set to: {pipeline_root}')
     beam_args = [
         '--direct_running_mode=multi_processing'

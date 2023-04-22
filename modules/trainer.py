@@ -1,9 +1,9 @@
 """
 Author: Maulana Muhammad
-Date: 20/04/2023
+Date: 22/04/2023
 This is the trainer.py module.
 Usage:
-- TRAINER
+- TRAINER MODEL PIPELINE
 """
 import os
 
