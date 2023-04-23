@@ -3,6 +3,10 @@ Nama: Maulana Muhammad
 
 Username dicoding: maoelana
 
+![penderita-diabetes-1-768x512](https://user-images.githubusercontent.com/58927608/233813527-c58cb22f-7f68-4076-a0ab-bd2b1f4b0f88.jpg)
+
+[Sumber Gambar](https://blog.peoplespheres.com/en-us/what-problems-do-human-resources-managers-face-every-day)
+
 | | Deskripsi |
 | ----------- | ----------- |
 | Dataset | [Diabetes prediction dataset](https://www.kaggle.com/datasets/iammustafatz/diabetes-prediction-dataset) |
