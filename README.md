@@ -3,9 +3,9 @@ Nama: Maulana Muhammad
 
 Username dicoding: maoelana
 
-![penderita-diabetes-1-768x512](https://user-images.githubusercontent.com/58927608/233813527-c58cb22f-7f68-4076-a0ab-bd2b1f4b0f88.jpg)
+![image-1](https://user-images.githubusercontent.com/58927608/233813701-29ab0111-abf0-4020-a0d7-981e7d3fc3d4.png)
 
-[Sumber Gambar](https://blog.peoplespheres.com/en-us/what-problems-do-human-resources-managers-face-every-day)
+[Sumber Gambar](https://www.rsbudimedika.com/mengenal-risiko-penyakit-diabetes-dan-cara-mencegahnya/)
 
 | | Deskripsi |
 | ----------- | ----------- |
